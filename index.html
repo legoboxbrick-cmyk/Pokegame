@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
+    <title>Pokémon Battle</title>
+
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+
+<main id="app">
+
+ 
+
+    <!-- =========================
+         START SCREEN
+    ========================== -->
+
+    <section id="start-screen" class="screen active">
+
+        <div class="pokeball-logo">
+            <div class="pokeball-center"></div>
+        </div>
+
+        <h1>Pokémon Battle</h1>
+
+        <p class="subtitle">
+            Choose your Pokémon and become the champion!
+        </p>
+
+        <div class="player-name-preview">
+            Welcome, <strong id="start-player-name">Trainer</strong>
+        </div>
+
+        <div class="start-buttons">
+
+            <button id="start-button" class="main-button">
+                START GAME
+            </button>
+
+            <button id="load-game-button" class="secondary-button">
+                💾 LOAD GAME
+            </button>
+
+            <button id="leaderboard-button" class="secondary-button">
+                🏆 LEADERBOARD
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PLAYER NAME SCREEN
+    ========================== -->
+
+    <section id="name-screen" class="screen name-screen">
+
+        <div class="setup-icon">
+            👤
+        </div>
+
+        <h2>Trainer Setup</h2>
+
+        <p class="subtitle">
+            What should we call you?
+        </p>
+
+        <div class="name-input-area">
+
+            <label for="player-name-input">
+                TRAINER NAME
+            </label>
+
+            <input
+                id="player-name-input"
+                type="text"
+                maxlength="16"
+                placeholder="Enter your name"
+                autocomplete="off"
+            >
+
+            <div id="name-error" class="form-error"></div>
+
+        </div>
+
+        <button
+            id="name-continue-button"
+            class="main-button"
+        >
+            CONTINUE
+        </button>
+
+        <button
+            id="name-back-button"
+            class="text-button"
+        >
+            ← Back
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         POKÉMON SELECTION
+    ========================== -->
+
+    <section id="selection-screen" class="screen">
+
+        <div class="screen-header">
+
+            <span class="header-icon">⚡</span>
+
+            <div>
+
+                <h2>Choose Your Pokémon</h2>
+
+                <p>
+                    Pick your fighter,
+                    <strong id="selection-player-name">
+                        Trainer
+                    </strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- POKÉDEX SEARCH -->
+
+        <div class="pokedex-controls">
+
+            <div class="pokemon-search-box">
+
+                <span class="search-icon">🔍</span>
+
+                <input
+                    id="pokemon-search"
+                    type="search"
+                    placeholder="Search Pokémon by name or number..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <select
+                id="pokemon-type-filter"
+                class="pokemon-type-filter"
+            >
+
+                <option value="all">
+                    All Types
+                </option>
+
+                <option value="normal">
+                    Normal
+                </option>
+
+                <option value="fire">
+                    Fire
+                </option>
+
+                <option value="water">
+                    Water
+                </option>
+
+                <option value="electric">
+                    Electric
+                </option>
+
+                <option value="grass">
+                    Grass
+                </option>
+
+                <option value="ice">
+                    Ice
+                </option>
+
+                <option value="fighting">
+                    Fighting
+                </option>
+
+                <option value="poison">
+                    Poison
+                </option>
+
+                <option value="ground">
+                    Ground
+                </option>
+
+                <option value="flying">
+                    Flying
+                </option>
+
+                <option value="psychic">
+                    Psychic
+                </option>
+
+                <option value="bug">
+                    Bug
+                </option>
+
+                <option value="rock">
+                    Rock
+                </option>
+
+                <option value="ghost">
+                    Ghost
+                </option>
+
+                <option value="dragon">
+                    Dragon
+                </option>
+
+                <option value="dark">
+                    Dark
+                </option>
+
+                <option value="steel">
+                    Steel
+                </option>
+
+                <option value="fairy">
+                    Fairy
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div
+            id="pokedex-status"
+            class="pokedex-status"
+        >
+            Loading Pokédex...
+        </div>
+
+
+        <div
+            id="pokemon-grid"
+            class="pokemon-grid"
+        ></div>
+
+
+        <div class="selection-footer">
+
+            <div class="selected-info">
+
+                <span>YOUR CHOICE</span>
+
+                <strong id="selected-text">
+                    Choose a Pokémon
+                </strong>
+
+            </div>
+
+            <div class="selection-actions">
+
+                <button
+                    id="save-selection-button"
+                    class="small-action-button"
+                >
+                    💾 Save
+                </button>
+
+                <button
+                    id="battle-button"
+                    class="main-button"
+                    disabled
+                >
+                    BATTLE!
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         BATTLE SCREEN
+    ========================== -->
+
+    <section id="battle-screen" class="screen battle-screen">
+
+        <div class="battle-header">
+
+            <div class="battle-title">
+
+                <span>⚔️</span>
+
+                <strong>
+                    <span id="battle-player-name">
+                        TRAINER
+                    </span>
+                    • POKÉMON BATTLE
+                </strong>
+
+            </div>
+
+            <div
+                id="turn-indicator"
+                class="turn-indicator"
+            >
+                YOUR TURN
+            </div>
+
+        </div>
+
+
+        <div
+            id="battle-arena"
+            class="battle-arena"
+        >
+
+            <div class="arena-cloud cloud-one"></div>
+            <div class="arena-cloud cloud-two"></div>
+
+            <div class="arena-ground enemy-ground"></div>
+            <div class="arena-ground player-ground"></div>
+
+
+            <!-- ENEMY -->
+
+            <div class="pokemon-side enemy-side">
+
+                <div class="status-box enemy-status">
+
+                    <div class="status-top">
+
+                        <div>
+
+                            <strong id="enemy-name">
+                                Enemy
+                            </strong>
+
+                            <span
+                                id="enemy-types"
+                                class="small-types"
+                            ></span>
+
+                        </div>
+
+                        <span id="enemy-level">
+                            Lv. 5
+                        </span>
+
+                    </div>
+
+                    <div class="hp-row">
+
+                        <span>HP</span>
+
+                        <div class="hp-container">
+
+                            <div
+                                id="enemy-hp"
+                                class="hp-bar"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="enemy-hp-text"
+                        class="hp-text"
+                    >
+                        100 / 100
+                    </div>
+
+                </div>
+
+
+                <div class="pokemon-image-container">
+
+                    <img
+                        id="enemy-image"
+                        class="battle-pokemon enemy-image"
+                        src=""
+                        alt="Enemy Pokémon"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PLAYER -->
+
+            <div class="pokemon-side player-side">
+
+                <div class="pokemon-image-container">
+
+                    <img
+                        id="player-image"
+                        class="battle-pokemon player-image"
+                        src=""
+                        alt="Your Pokémon"
+                    >
+
+                </div>
+
+
+                <div class="status-box player-status">
+
+                    <div class="status-top">
+
+                        <div>
+
+                            <strong id="player-name">
+                                Player
+                            </strong>
+
+                            <span
+                                id="player-types"
+                                class="small-types"
+                            ></span>
+
+                        </div>
+
+                        <span id="player-level">
+                            Lv. 5
+                        </span>
+
+                    </div>
+
+                    <div class="hp-row">
+
+                        <span>HP</span>
+
+                        <div class="hp-container">
+
+                            <div
+                                id="player-hp"
+                                class="hp-bar"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="player-hp-text"
+                        class="hp-text"
+                    >
+                        100 / 100
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="effect-layer"
+                class="effect-layer"
+            ></div>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div class="message-panel">
+
+            <div
+                id="message-icon"
+                class="message-icon"
+            >
+                💬
+            </div>
+
+            <div
+                id="battle-message"
+                class="battle-message"
+            >
+                What will your Pokémon do?
+            </div>
+
+        </div>
+
+
+        <!-- CONTROLS -->
+
+        <div class="battle-controls">
+
+            <div class="controls-title">
+                <span>CHOOSE A MOVE</span>
+            </div>
+
+            <div
+                id="moves"
+                class="moves-grid"
+            ></div>
+
+            <div class="battle-actions">
+
+                <button
+                    id="potion-button"
+                    class="action-button potion-button"
+                >
+                    <span class="action-icon">🧪</span>
+
+                    <span>
+                        Potion
+                        <small>
+                            ×<span id="potion-count">3</span>
+                        </small>
+                    </span>
+                </button>
+
+                <button
+                    id="save-battle-button"
+                    class="action-button save-battle-button"
+                >
+                    <span class="action-icon">💾</span>
+                    Save Game
+                </button>
+
+                <button
+                    id="new-battle-button"
+                    class="action-button"
+                >
+                    <span class="action-icon">🔄</span>
+                    New Battle
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <details class="battle-log">
+
+            <summary>
+                📜 Battle Log
+            </summary>
+
+            <div id="log-list"></div>
+
+        </details>
+
+    </section>
+
+
+    <!-- =========================
+         RESULT SCREEN
+    ========================== -->
+
+    <section id="result-screen" class="screen result-screen">
+
+        <div id="result-icon" class="result-icon">
+            🏆
+        </div>
+
+        <div class="result-label">
+            BATTLE COMPLETE
+        </div>
+
+        <h2 id="result-title">
+            You Win!
+        </h2>
+
+        <p id="result-message">
+            Congratulations!
+        </p>
+
+        <div class="result-stats">
+
+            <div>
+                <span>TRAINER</span>
+                <strong id="result-player-name">
+                    Trainer
+                </strong>
+            </div>
+
+            <div>
+                <span>WINS</span>
+                <strong id="result-wins">
+                    0
+                </strong>
+            </div>
+
+            <div>
+                <span>LOSSES</span>
+                <strong id="result-losses">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+        <button
+            id="play-again-button"
+            class="main-button"
+        >
+            PLAY AGAIN
+        </button>
+
+        <button
+            id="result-save-button"
+            class="secondary-button"
+        >
+            💾 Save Progress
+        </button>
+
+        <button
+            id="result-home-button"
+            class="text-button"
+        >
+            🏠 Main Menu
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         SAVE / LOAD SCREEN
+    ========================== -->
+
+    <section
+        id="save-screen"
+        class="screen save-screen"
+    >
+
+        <div class="screen-header">
+
+            <span class="header-icon">💾</span>
+
+            <div>
+
+                <h2 id="save-screen-title">
+                    Save Game
+                </h2>
+
+                <p>
+                    Choose a save slot.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div
+            id="save-slots"
+            class="save-slots"
+        ></div>
+
+        <button
+            id="save-back-button"
+            class="text-button"
+        >
+            ← Back
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         LEADERBOARD
+    ========================== -->
+
+    <section
+        id="leaderboard-screen"
+        class="screen leaderboard-screen"
+    >
+
+        <div class="screen-header">
+
+            <span class="header-icon">🏆</span>
+
+            <div>
+
+                <h2>Leaderboard</h2>
+
+                <p>
+                    Top trainers by victories.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div
+            id="leaderboard-list"
+            class="leaderboard-list"
+        ></div>
+
+        <div class="leaderboard-actions">
+
+            <button
+                id="leaderboard-clear-button"
+                class="small-action-button danger-button"
+            >
+                🗑️ Clear Leaderboard
+            </button>
+
+            <button
+                id="leaderboard-back-button"
+                class="text-button"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SAVE SLOT MODAL
+    ========================== -->
+
+    <div
+        id="slot-modal"
+        class="modal-overlay"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-icon">
+                💾
+            </div>
+
+            <h3 id="modal-title">
+                Choose Save Slot
+            </h3>
+
+            <p id="modal-message">
+                Select a slot to continue.
+            </p>
+
+            <div class="modal-actions">
+
+                <button
+                    id="modal-confirm"
+                    class="main-button"
+                >
+                    CONFIRM
+                </button>
+
+                <button
+                    id="modal-cancel"
+                    class="text-button"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         POKÉMON DETAILS MODAL
+    ========================== -->
+
+    <div
+        id="pokemon-details-modal"
+        class="modal-overlay"
+    >
+
+        <div class="pokemon-details-box">
+
+            <button
+                id="pokemon-details-close"
+                class="modal-close-button"
+                aria-label="Close Pokémon details"
+            >
+                ×
+            </button>
+
+            <div id="pokemon-details-content"></div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>
